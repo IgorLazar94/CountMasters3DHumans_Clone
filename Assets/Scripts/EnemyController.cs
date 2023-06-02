@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     [Range(0f, 1f)][SerializeField] float radius;
     [SerializeField] private GameObject stickMan;
     [SerializeField] private TextMeshPro counterText;
+    [SerializeField] private InputController inputController;
 
     public Transform enemy;
     public bool isAttacking;
@@ -62,16 +63,16 @@ public class EnemyController : MonoBehaviour
                 transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, Quaternion.LookRotation(enemyDirection, Vector3.up),
                     Time.deltaTime * 3f);
 
-
-                var distance = enemy.GetChild(1).position - transform.GetChild(i).position;
-
-                if (distance.magnitude < 5f) // distance to attack
+                if (enemy.childCount > 1)
                 {
-                    transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, enemy.GetChild(i).position, Time.deltaTime * 2f);
+                    var distance = enemy.GetChild(1).position - transform.GetChild(i).position;
+
+                    if (distance.magnitude < 5f) // distance to attack
+                    {
+                        transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, enemy.GetChild(i).position, Time.deltaTime * 2f);
+                    }
                 }
             }
-
-
         }
     }
 
@@ -86,7 +87,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void StopAttacking()
+    {
+        inputController.SetGameState(false);
+        isAttacking = false;
 
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", false);
+        }
+    }
 
 
 

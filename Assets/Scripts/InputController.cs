@@ -26,6 +26,8 @@ public class InputController : MonoBehaviour
         if (!playerBehaviour.GetIsAttackPlayer())
         {
             PlayerMove();
+
+            
         }
 
 
@@ -111,5 +113,10 @@ public class InputController : MonoBehaviour
     public float GetRoadSpeed()
     {
         return roadSpeed;
+    }
+
+    public void SetGameState(bool value)
+    {
+        gameState = value;
     }
 }

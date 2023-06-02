@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class StickmanBehaviour : MonoBehaviour
 {
@@ -11,5 +12,12 @@ public class StickmanBehaviour : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
+
+        if (other.CompareTag(TagList.Ramp))
+        {
+            transform.DOJump(transform.position, 1f, 1, 1f).SetEase(Ease.Flash).OnComplete(PlayerBehaviour.Instance.StickmanFormation);
+        }
+
+
     }
 }

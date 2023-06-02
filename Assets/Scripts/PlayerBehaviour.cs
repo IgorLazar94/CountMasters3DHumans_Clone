@@ -6,6 +6,9 @@ using DG.Tweening;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public static PlayerBehaviour Instance;
+
+
     private TextMeshPro counterText;
     [SerializeField] private GameObject stickMan;
     public Transform player;
@@ -27,6 +30,8 @@ public class PlayerBehaviour : MonoBehaviour
         stickmansCount = transform.childCount - 1;
 
         counterText.text = stickmansCount.ToString();
+
+        Instance = this;
     }
 
     private void Update()
@@ -60,22 +65,37 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
+                // ====== DisableAttack
                 isAttack = false;
                 float _roadSpeed = inputController.GetRoadSpeed();
                 inputController.SetRoadSpeed(_roadSpeed * 2);
 
-                for (int i = 0; i < transform.childCount; i++)
+                //for (int i = 0; i < transform.childCount; i++)
+                //{
+                //    transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, Quaternion.identity, Time.deltaTime * 2f);
+                //}
+
+
+                // ======
+                StickmanFormation();
+
+                for (int i = 1; i < transform.childCount; i++)  // Разворот прямо по глобальной оси
                 {
-                    transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, Quaternion.identity, Time.deltaTime * 2f);
+                transform.GetChild(i).rotation = Quaternion.identity;
                 }
 
-                StickmanFormation();
-                enemy.gameObject.SetActive(false);
+                enemy.gameObject.SetActive(false); // diactivate enemy zone
+            }
+
+            if (transform.childCount == 1) // if blue == 0 () => StopAttack
+            {
+                enemy.transform.GetChild(1).GetComponent<EnemyController>().StopAttacking();
+                gameObject.SetActive(false);
             }
         }
     }
 
-    private void StickmanFormation()
+    public void StickmanFormation()
     {
         for (int i = 1; i < player.childCount; i++)
         {
@@ -84,7 +104,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             Vector3 newPos = new Vector3(x, -1f, z);
 
-            player.transform.GetChild(i).DOLocalMove(newPos, 1f).SetEase(Ease.OutBack);
+            player.transform.GetChild(i).DOLocalMove(newPos, 0.5f).SetEase(Ease.OutBack);
         }
     }
 

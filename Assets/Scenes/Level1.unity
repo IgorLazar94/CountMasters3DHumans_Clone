@@ -394,7 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceBetween: 0.551
   radius: 0.748
-  stickMan: {fileID: 8916667976979059776, guid: 44375bfcd716e9b479dbed3cc8fd12a8, type: 3}
+  stickMan: {fileID: 8916667976979059776, guid: 729fd9377e214eb428c4bad60b0b46a8, type: 3}
   counterText: {fileID: 533250989}
   enemy: {fileID: 0}
   isAttacking: 0
@@ -1471,6 +1471,7 @@ Transform:
   - {fileID: 209160249}
   - {fileID: 991754074}
   - {fileID: 83799597}
+  - {fileID: 1917441279}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3368,6 +3369,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5576647740893972534, guid: 3cb53593f289d78488b3ab64dbf1bd6a, type: 3}
   m_PrefabInstance: {fileID: 1426198733}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1478551210
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 621772579}
+    m_Modifications:
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8840306
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 45.717484
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379618149356282832, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+      propertyPath: m_Name
+      value: Ramp_ProBuilder
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
 --- !u!1001 &1483136365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3763,6 +3825,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5576647740893972534, guid: 3cb53593f289d78488b3ab64dbf1bd6a, type: 3}
   m_PrefabInstance: {fileID: 1903659973}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1917441279 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2714826569643751786, guid: 50dd2d2a90ec48b4eb1c0789b0dd8a22, type: 3}
+  m_PrefabInstance: {fileID: 1478551210}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1917451980
 GameObject:
