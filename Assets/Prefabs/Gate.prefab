@@ -431,9 +431,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6449257069766775765}
   - component: {fileID: 5664674861251981684}
+  - component: {fileID: 4933374799136036109}
   m_Layer: 0
   m_Name: Gate
-  m_TagString: Untagged
+  m_TagString: Gate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -468,6 +469,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gateType: 0
+--- !u!65 &4933374799136036109
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5966017773448481135}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 2, z: 0.5}
+  m_Center: {x: -0.05, y: -0.4, z: 0}
 --- !u!1 &8619131065626860167
 GameObject:
   m_ObjectHideFlags: 0

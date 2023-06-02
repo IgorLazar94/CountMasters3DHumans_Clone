@@ -10,9 +10,9 @@ public enum GateType
 }
 public class Gate : MonoBehaviour
 {
-    [SerializeField] private GateType gateType;
+    public GateType gateType;
     private TextMeshPro gateText;
-    private int randomNumber;
+    public int randomNumber;
 
 
     private void Start()
