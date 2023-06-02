@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -11,19 +12,20 @@ public class PlayerBehaviour : MonoBehaviour
     private int countStickmans;
 
     // ====================================
-    [SerializeField] float distanceBetween;
-    [SerializeField] float radius;
+
+    [Range(0f, 1f)] [SerializeField] float distanceBetween;
+    [Range(0f, 1f)] [SerializeField] float radius;
 
     private void StickmanFormation()
     {
-        for (int i = 0; i < player.childCount; i++)
+        for (int i = 1; i < player.childCount; i++)
         {
             var x = distanceBetween * Mathf.Sqrt(i) * Mathf.Cos(i * radius);
             var z = distanceBetween * Mathf.Sqrt(i) * Mathf.Sin(i * radius);
 
-            var newPos = (x, 1f, z);
+            Vector3 newPos = new Vector3(x, -1f, z);
 
-            //player.transform.GetChild(i)
+            player.transform.GetChild(i).DOLocalMove(newPos, 1f).SetEase(Ease.OutBack);
         }
     }
 
@@ -47,6 +49,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         countStickmans = transform.childCount - 1;
         counterText.text = countStickmans.ToString();
+
+        StickmanFormation();
     }
 
     private void OnTriggerEnter(Collider other)
