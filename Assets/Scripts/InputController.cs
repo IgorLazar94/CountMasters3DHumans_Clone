@@ -1,33 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
     [SerializeField] private Transform road;
-    [SerializeField] private bool moveByTouch;
+    [SerializeField] private bool isMoving;
     [SerializeField] private bool gameState;
     [SerializeField] private float playerSpeed;
     [SerializeField] private float roadSpeed;
 
+    private PlayerBehaviour playerBehaviour;
     private Vector3 mouseStartPos, playerStartPos;
     private Camera mainCamera;
 
     private void Start()
     {
+        playerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
         mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        PlayerMove();
+        if (!playerBehaviour.GetIsAttackPlayer())
+        {
+            PlayerMove();
+        }
+
+
+        if (gameState)
+        {
+            MoveRoad();
+            EnableAnimation();
+        }
     }
 
     private void PlayerMove()
     {
         if (Input.GetMouseButtonDown(0) && gameState)
         {
-            moveByTouch = true;
+            isMoving = true;
 
             var plane = new Plane(Vector3.up, 0f);
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -41,10 +54,10 @@ public class InputController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            moveByTouch = false;
+            isMoving = false;
         }
 
-        if (moveByTouch)
+        if (isMoving)
         {
             var plane = new Plane(Vector3.up, 0f);
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -54,17 +67,49 @@ public class InputController : MonoBehaviour
             {
                 var mousePos = ray.GetPoint(distance + 1f);
                 var move = mousePos - mouseStartPos;
+                Vector3 offset = playerStartPos + move;
 
-                var control = playerStartPos + move;
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, control.x, Time.deltaTime * playerSpeed), 
-                                                            transform.position.y, 
+                CheckBorders(offset);
+
+                transform.position = new Vector3(Mathf.Lerp(transform.position.x, offset.x, Time.deltaTime * playerSpeed),
+                                                            transform.position.y,
                                                             transform.position.z);
             }
         }
+    }
 
-        if (gameState)
+    private void CheckBorders(Vector3 _offset)
+    {
+        if (playerBehaviour.GetStickmansCount() >= 50)  // разбить на большее кол-во счёта (границы игрока)
         {
-            road.Translate(road.forward * Time.deltaTime * roadSpeed * (-1)/*reverse*/);
+            _offset.x = Mathf.Clamp(_offset.x, -2.2f, 2.2f);
         }
+        else
+        {
+            _offset.x = Mathf.Clamp(_offset.x, -4f, 4f);
+        }
+    }
+
+    private void EnableAnimation()
+    {
+        for (int i = 1; i < transform.childCount; i++) // enable animation
+        {
+            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", true);
+        }
+    }
+
+    private void MoveRoad()
+    {
+        road.Translate(road.forward * Time.deltaTime * roadSpeed * (-1)/*reverse*/);  // move road
+    }
+
+    public void SetRoadSpeed(float value)
+    {
+        roadSpeed = value;
+    }
+
+    public float GetRoadSpeed()
+    {
+        return roadSpeed;
     }
 }

@@ -883,7 +883,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9bc8e885cda494e48b7d2aac2f65c906, type: 2}
+  - {fileID: 2100000, guid: 91211b5d05aa65b4f9270de9e92dfe65, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1021,10 +1021,9 @@ GameObject:
   - component: {fileID: 1128664458}
   - component: {fileID: 1128664457}
   - component: {fileID: 1128664459}
-  - component: {fileID: 8738346838099641994}
   m_Layer: 0
-  m_Name: Stickman_Player
-  m_TagString: StickmanPlayer
+  m_Name: Stickman_Enemy
+  m_TagString: StickmanEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1096,18 +1095,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &8738346838099641994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8916667976979059776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07b110ec5c4d3a34c877dd899935140a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9001928136259172713
 GameObject:
   m_ObjectHideFlags: 0
