@@ -6,6 +6,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     [SerializeField] private Transform road;
+    [SerializeField] UIManager uiManager;
     [SerializeField] private bool isMoving;
     [SerializeField] private bool gameState;
     [SerializeField] private float playerSpeed;
@@ -44,7 +45,7 @@ public class InputController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameState)
         {
             isMoving = true;
-
+            uiManager.HideStartPanel();
             var plane = new Plane(Vector3.up, 0f);
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 

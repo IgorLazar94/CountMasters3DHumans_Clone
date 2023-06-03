@@ -10,6 +10,7 @@ public class PlayerBehaviour : MonoBehaviour
     public static PlayerBehaviour Instance;
 
     [SerializeField] private CameraController cameraController;
+    [SerializeField] private UIManager uiManager;
     [SerializeField] private GameObject stickMan;
     [SerializeField] private CoinManager coinManager;
     private TextMeshPro counterLabelText;
@@ -59,6 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
             {
                 enemyControllerObject.gameObject.GetComponent<EnemyController>().StopAttacking();
+                uiManager.ShowLosePanel();
                 gameObject.SetActive(false);
             } 
         }

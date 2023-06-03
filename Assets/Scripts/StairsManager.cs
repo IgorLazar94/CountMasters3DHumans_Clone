@@ -78,8 +78,8 @@ public class StairsManager : MonoBehaviour
         float bonusFactor = stair.gameObject.GetComponent<Stair>().GetBonusFactor();
         resultCoins = (int)bonusFactor + coins;
         uiManager.UpdateCoinText(resultCoins);
-        Debug.Log("Finish");
-
+        uiManager.CalculateResultScores(resultCoins);
+        uiManager.ShowWinPanel();
     }
 
 

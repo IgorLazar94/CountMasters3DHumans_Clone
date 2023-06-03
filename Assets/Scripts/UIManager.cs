@@ -6,13 +6,19 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] GameObject startPanel;
+    [SerializeField] GameObject losePanel;
+    [SerializeField] GameObject winPanel;
+    [SerializeField] GameObject playModePanel;
+
     [SerializeField] TextMeshProUGUI coinsText;
+    [SerializeField] TextMeshProUGUI coinsResult;
     private RectTransform cointTransform;
-    private int test = 1;
 
     private void Start()
     {
         cointTransform = coinsText.GetComponent<RectTransform>();
+        ShowStartPanel();
     }
 
     public void UpdateCoinText(int coins)
@@ -21,12 +27,35 @@ public class UIManager : MonoBehaviour
         cointTransform.DOScale(1.2f, 0.1f).OnComplete(() => cointTransform.DOScale(1.0f, 0.1f));
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //    {
-    //        UpdateCoinText(test);
-    //        test++;
-    //    }
-    //}
+    public void ShowLosePanel()
+    {
+        playModePanel.SetActive(false);
+        losePanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void ShowWinPanel()
+    {
+        playModePanel.SetActive(false);
+        winPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    private void ShowStartPanel()
+    {
+        startPanel.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    public void HideStartPanel()
+    {
+        startPanel.SetActive(false);
+        playModePanel.SetActive(true);
+        Time.timeScale = 1;
+    }
+
+    public void CalculateResultScores(int scores)
+    {
+        coinsResult.text = "Your scores: " + scores.ToString();
+    }
 }
