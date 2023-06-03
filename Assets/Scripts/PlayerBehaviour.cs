@@ -28,19 +28,25 @@ public class PlayerBehaviour : MonoBehaviour
     private Transform enemy;
     private Transform enemyControllerObject;
 
+    private CinemachineTransposer cinemachineTransposer;
+    private CinemachineComposer cinemachineComposer;
+
     private void Start()
     {
+        Instance = this;
         distanceToAttack = GameSettings.Instance.GetDistanceToAttack();
 
         inputController = gameObject.GetComponent<InputController>();
         player = transform;
-        player.GetChild(1).GetComponent<Animator>().SetBool("isRunning", true);
         counterLabelText = GetComponentInChildren<TextMeshPro>();
         playerStickmansCount = transform.childCount - 1;
-
+        EnableAnimation();
         UpdateCounterText();
+    }
 
-        Instance = this;
+    private void EnableAnimation()
+    {
+        player.GetChild(1).GetComponent<Animator>().SetBool("isRunning", true);
     }
 
     private void UpdateCounterText ()
@@ -48,30 +54,16 @@ public class PlayerBehaviour : MonoBehaviour
         counterLabelText.text = playerStickmansCount.ToString();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (moveTheCamera && transform.childCount > 1)
         {
-            var cinemachineTransposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
-            var cinemachineComposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineComposer>();
-
-            //cinemachineTransposer.m_FollowOffset = new Vector3(4.5f,
-            //                                                   Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y,
-            //                                                              transform.GetChild(1).position.y + 2f,
-            //                                                              Time.deltaTime * 1f),
-            //                                                   -5f);
-
-            //cinemachineComposer.m_TrackedObjectOffset = new Vector3(0f, 
-            //                                                       Mathf.Lerp(cinemachineComposer.m_TrackedObjectOffset.y, 
-            //                                                                  4f,
-            //                                                                  Time.deltaTime * 1f), 
-            //                                                       0f);    
-
-
-
+            SecondCameraActivated();
         }
+    }
 
-
+    private void Update()
+    {
 
         if (isAttack)
         {
@@ -114,6 +106,23 @@ public class PlayerBehaviour : MonoBehaviour
 
 
         }
+    }
+
+    private void SecondCameraActivated()
+    {
+
+
+        cinemachineTransposer.m_FollowOffset = new Vector3(4.5f,
+                                                           Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y,
+                                                                      transform.GetChild(1).position.y + 2f,
+                                                                      Time.deltaTime * 1f),
+                                                           -5f);
+
+        cinemachineComposer.m_TrackedObjectOffset = new Vector3(0f,
+                                                               Mathf.Lerp(cinemachineComposer.m_TrackedObjectOffset.y,
+                                                                          4f,
+                                                                          Time.deltaTime * 1f),
+                                                               0f);
     }
 
     private void DisableAttack()
@@ -245,6 +254,11 @@ public class PlayerBehaviour : MonoBehaviour
     public void SetMoveTheCamera(bool value)
     {
         moveTheCamera = value;
+        if (value)
+        {
+            cinemachineTransposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
+            cinemachineComposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineComposer>();
+        }
     }
 
     public bool GetMoveTheCamera()
