@@ -9,7 +9,10 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        playerCoins = 0;
+        playerCoins = PlayerPrefs.GetInt("PlayerCoins", playerCoins);
+        uiManager.UpdateCoinText(playerCoins);
+
+        //playerCoins = 0;
     }
 
     public void AddPlayerCoin()
@@ -23,5 +26,11 @@ public class CoinManager : MonoBehaviour
         return playerCoins;
     }
 
-    
+    public void SavePlayerCoins(int _finalCoins)
+    {
+        PlayerPrefs.SetInt("PlayerCoins", _finalCoins);
+        PlayerPrefs.Save();
+    }
+
+
 }

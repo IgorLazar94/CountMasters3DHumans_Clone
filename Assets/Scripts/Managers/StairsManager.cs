@@ -23,7 +23,7 @@ public class StairsManager : MonoBehaviour
         {
             Transform child = transform.GetChild(i);
             float test = (i + 1) / 10;
-            Debug.Log(test + " value");
+            Debug.Log(i + " III");
             child.gameObject.GetComponent<Stair>().SetBonusFactor(i);
 
 
@@ -77,6 +77,7 @@ public class StairsManager : MonoBehaviour
 
         float bonusFactor = stair.gameObject.GetComponent<Stair>().GetBonusFactor();
         resultCoins = (int)bonusFactor + coins;
+        coinManager.SavePlayerCoins(resultCoins);
         uiManager.UpdateCoinText(resultCoins);
         uiManager.CalculateResultScores(resultCoins);
         uiManager.ShowWinPanel();
