@@ -9,10 +9,11 @@ public class PlayerBehaviour : MonoBehaviour
     public static PlayerBehaviour Instance;
 
 
-    private TextMeshPro counterText;
+    private TextMeshPro counterLabelText;
     [SerializeField] private GameObject stickMan;
     public Transform player;
-    private int stickmansCount;
+    private int playerStickmansCount;
+    private int enemyStickmansCount;
     private InputController inputController;
     // ====================================
 
@@ -26,12 +27,17 @@ public class PlayerBehaviour : MonoBehaviour
     {
         inputController = gameObject.GetComponent<InputController>();
         player = transform;
-        counterText = GetComponentInChildren<TextMeshPro>();
-        stickmansCount = transform.childCount - 1;
+        counterLabelText = GetComponentInChildren<TextMeshPro>();
+        playerStickmansCount = transform.childCount - 1;
 
-        counterText.text = stickmansCount.ToString();
+        UpdateCounterText();
 
         Instance = this;
+    }
+
+    private void UpdateCounterText ()
+    {
+        counterLabelText.text = playerStickmansCount.ToString();
     }
 
     private void Update()
@@ -84,14 +90,21 @@ public class PlayerBehaviour : MonoBehaviour
                 transform.GetChild(i).rotation = Quaternion.identity;
                 }
 
-                enemy.gameObject.SetActive(false); // diactivate enemy zone
+
+
+                enemy.gameObject.SetActive(false);
+
+               
+
             }
 
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
             {
                 enemy.transform.GetChild(1).GetComponent<EnemyController>().StopAttacking();
                 gameObject.SetActive(false);
-            }
+            } 
+
+
         }
     }
 
@@ -113,13 +126,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void MakeStickman(int number)
     {
-        for (int i = 0; i < number; i++)
+        for (int i = playerStickmansCount; i < number; i++)
         {
             Instantiate(stickMan, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, transform);
         }
 
-        stickmansCount = transform.childCount - 1;
-        counterText.text = stickmansCount.ToString();
+        playerStickmansCount = transform.childCount - 1;
+        counterLabelText.text = playerStickmansCount.ToString();
 
         StickmanFormation();
     }
@@ -135,11 +148,11 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (gateScript.gateType == GateType.Multiply)
             {
-                MakeStickman(stickmansCount * gateScript.randomNumber);
+                MakeStickman(playerStickmansCount * gateScript.randomNumber);
             }
             else
             {
-                MakeStickman(stickmansCount + gateScript.randomNumber);
+                MakeStickman(playerStickmansCount + gateScript.randomNumber);
             }
         }
 
@@ -152,17 +165,53 @@ public class PlayerBehaviour : MonoBehaviour
             inputController.SetRoadSpeed(_roadSpeed / 2);
 
             other.transform.GetChild(1).GetComponent<EnemyController>().EnemyAttack(transform);
+
+            StartCoroutine(UpdateEnemyPlayerStickmans());
         }
     }
 
+    private IEnumerator UpdateEnemyPlayerStickmans ()
+    {
+        enemyStickmansCount = enemy.transform.GetChild(1).childCount - 1;
+        playerStickmansCount = transform.childCount - 1;
+
+        while (enemyStickmansCount > 0 && playerStickmansCount > 0)
+        {
+            enemyStickmansCount--;
+            playerStickmansCount--;
+
+            enemy.transform.GetChild(1).GetComponent<EnemyController>().UpdateLabelText();
+            UpdateCounterText();
+
+            yield return null;
+        }
+
+        if (enemyStickmansCount == 0)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).rotation = Quaternion.identity;
+            }
+            //isAttack = false; // Call Disable Attack () ?!!
+
+        }
+    }
+
+
+
+
+
+
+
     public int GetStickmansCount()
     {
-        return stickmansCount;
+        return playerStickmansCount;
     }
 
     public bool GetIsAttackPlayer()
     {
         return isAttack;
     }
+
 
 }

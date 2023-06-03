@@ -33,7 +33,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void UpdateLabelText()
+    public void UpdateLabelText()
     {
         counterText.text = (transform.childCount - 1).ToString();
     }
