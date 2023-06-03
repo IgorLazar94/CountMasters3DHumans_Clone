@@ -22,6 +22,12 @@ public class GameSettings : MonoBehaviour
     [Space]
     [Header("Stickmans")]
     [Range(5f, 10f)] [SerializeField] private float distanceToAttack;
+    [Range(1f, 3f)] [SerializeField] private float jumpForce;
+    [Range(1f, 3f)] [SerializeField] private float jumpDuration;
+    [Space]
+    [Header("Track")]
+    [SerializeField] private float trackSpeed;
+
 
 
     // Stickmans
@@ -29,5 +35,19 @@ public class GameSettings : MonoBehaviour
     {
         return distanceToAttack;
     }
-    
+    public float GetJumpDuration()
+    {
+        return jumpDuration;
+    }
+    public float GetJumpForce()
+    {
+        return jumpForce;
+    }
+
+    // Track
+    public float GetTrackSpeed()
+    {
+        return trackSpeed;
+    }
+
 }

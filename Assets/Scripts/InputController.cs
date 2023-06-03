@@ -9,7 +9,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool isMoving;
     [SerializeField] private bool gameState;
     [SerializeField] private float playerSpeed;
-    [SerializeField] private float roadSpeed;
+    private float roadSpeed;
     [SerializeField] private CameraController cameraController;
 
     private PlayerBehaviour playerBehaviour;
@@ -18,6 +18,7 @@ public class InputController : MonoBehaviour
 
     private void Start()
     {
+        roadSpeed = GameSettings.Instance.GetTrackSpeed();
         playerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
         mainCamera = Camera.main;
         gameState = true;
@@ -98,7 +99,7 @@ public class InputController : MonoBehaviour
 
     private void EnableAnimation()
     {
-        for (int i = 1; i < transform.childCount; i++) // enable animation
+        for (int i = 1; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", true);
         }
@@ -106,7 +107,7 @@ public class InputController : MonoBehaviour
 
     private void MoveRoad()
     {
-        road.Translate(road.forward * Time.deltaTime * roadSpeed * (-1)/*reverse*/);  // move road
+        road.Translate(road.forward * Time.deltaTime * roadSpeed * (-1)/*reverse*/);
     }
 
     public void SetRoadSpeed(float value)

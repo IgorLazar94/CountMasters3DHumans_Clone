@@ -7,11 +7,15 @@ public class StickmanBehaviour : MonoBehaviour
 {
     [SerializeField] private ParticleSystem fxBlue;
     [SerializeField] private ParticleSystem fxRed;
-
+    private float jumpDuration;
+    private float jumpForce;
     private Animator animator;
 
     private void Start()
     {
+        jumpDuration = GameSettings.Instance.GetJumpDuration();
+        jumpForce = GameSettings.Instance.GetJumpForce();
+
         animator = GetComponent<Animator>();
         animator.SetBool("isRunning", true);
     }
@@ -25,7 +29,7 @@ public class StickmanBehaviour : MonoBehaviour
 
         if (other.CompareTag(TagList.Ramp))
         {
-            transform.DOJump(transform.position, 1f, 1, 1f).SetEase(Ease.Flash).OnComplete(PlayerBehaviour.Instance.StickmanFormation);
+            transform.DOJump(transform.position, jumpForce, 1, jumpDuration).SetEase(Ease.Flash).OnComplete(PlayerBehaviour.Instance.StickmanFormation);
         }
 
         if (other.CompareTag(TagList.Stair)) // allow to detect the collored stairs
