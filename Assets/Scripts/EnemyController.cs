@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private InputController inputController;
 
     public Transform enemy;
-    public bool isAttacking;
-
+    private bool isAttacking;
+    private float distanceToAttack;
     private void Start()
     {
-
+        distanceToAttack = GameSettings.Instance.GetDistanceToAttack();
 
         CreateEnemies();
         UpdateLabelText();
@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
                 {
                     var distance = enemy.GetChild(1).position - transform.GetChild(i).position;
 
-                    if (distance.magnitude < 5f) // distance to attack
+                    if (distance.magnitude < distanceToAttack)
                     {
                         transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, enemy.GetChild(i).position, Time.deltaTime * 2f);
                     }
@@ -97,10 +97,4 @@ public class EnemyController : MonoBehaviour
             transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", false);
         }
     }
-
-
-
-
-
-
 }

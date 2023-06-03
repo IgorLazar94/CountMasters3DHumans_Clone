@@ -13,7 +13,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject stickMan;
     [SerializeField] private CinemachineVirtualCamera secondCamera;
     private TextMeshPro counterLabelText;
-    public Transform player;
+    [HideInInspector] public Transform player;
     private int playerStickmansCount;
     private int enemyStickmansCount;
     private InputController inputController;
@@ -22,12 +22,15 @@ public class PlayerBehaviour : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] float distanceBetween;
     [Range(0f, 1f)] [SerializeField] float radius;
 
-    [SerializeField] private Transform enemy;
+    private Transform enemy;
     private bool isAttack;
     private bool moveTheCamera = false;
+    private float distanceToAttack;
 
     private void Start()
     {
+        distanceToAttack = GameSettings.Instance.GetDistanceToAttack();
+
         inputController = gameObject.GetComponent<InputController>();
         player = transform;
         player.GetChild(1).GetComponent<Animator>().SetBool("isRunning", true);
@@ -86,7 +89,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     var distance = enemy.GetChild(1).GetChild(0).position - transform.GetChild(i).position;
 
-                    if (distance.magnitude < 5f)  // distance to attack player
+                    if (distance.magnitude < distanceToAttack)
                     {
                         transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, 
                                                                 new Vector3(enemy.GetChild(1).GetChild(0).position.x,
@@ -98,31 +101,8 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                // ====== DisableAttack
-                isAttack = false;
-                float _roadSpeed = inputController.GetRoadSpeed();
-                inputController.SetRoadSpeed(_roadSpeed * 2);
-
-                //for (int i = 0; i < transform.childCount; i++)
-                //{
-                //    transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, Quaternion.identity, Time.deltaTime * 2f);
-                //}
-
-
-                // ======
-                StickmanFormation();
-
-                for (int i = 1; i < transform.childCount; i++)  // Разворот прямо по глобальной оси
-                {
-                transform.GetChild(i).rotation = Quaternion.identity;
-                }
-
-
-
+                DisableAttack();
                 enemy.gameObject.SetActive(false);
-
-               
-
             }
 
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
@@ -132,6 +112,23 @@ public class PlayerBehaviour : MonoBehaviour
             } 
 
 
+        }
+    }
+
+    private void DisableAttack()
+    {
+        isAttack = false;
+        float _roadSpeed = inputController.GetRoadSpeed();
+        inputController.SetRoadSpeed(_roadSpeed * 2);
+        StickmanFormation();
+        RotateForwardStickmans();
+    }
+
+    private void RotateForwardStickmans()
+    {
+        for (int i = 1; i < transform.childCount; i++)  
+        {
+            transform.GetChild(i).rotation = Quaternion.identity;
         }
     }
 
@@ -222,12 +219,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (enemyStickmansCount == 0)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).rotation = Quaternion.identity;
-            }
+            RotateForwardStickmans();
             //isAttack = false; // Call Disable Attack () ?!!
-
         }
     }
 
