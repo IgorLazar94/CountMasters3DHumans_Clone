@@ -171,11 +171,11 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (gateScript.gateType == GateType.Multiply)
             {
-                MakeStickman(playerStickmansCount * gateScript.randomNumber);
+                MakeStickman(playerStickmansCount * gateScript.number);
             }
             else
             {
-                MakeStickman(playerStickmansCount + gateScript.randomNumber);
+                MakeStickman(playerStickmansCount + gateScript.number);
             }
         }
 

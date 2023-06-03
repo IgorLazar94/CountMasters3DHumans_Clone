@@ -12,7 +12,7 @@ public class Gate : MonoBehaviour
 {
     public GateType gateType;
     private TextMeshPro gateText;
-    public int randomNumber;
+    public int number;
 
 
     private void Start()
@@ -21,30 +21,32 @@ public class Gate : MonoBehaviour
 
         if (gateType == GateType.Multiply)
         {
-            SetRandomMultiply();
+            //SetRandomMultiply();
+            gateText.text = "X" + number;
         }
         else
         {
-            SetRandomAdd();
+            //SetRandomAdd();
+            gateText.text = number.ToString();
         }
     }
 
     private void SetRandomMultiply()
     {
-        randomNumber = Random.Range(1, 3);
-        gateText.text = "X" + randomNumber;
+        number = Random.Range(1, 3);
+        gateText.text = "X" + number;
     }
 
     private void SetRandomAdd()
     {
-        randomNumber = Random.Range(10, 100);
+        number = Random.Range(10, 100);
 
-        if (randomNumber % 2 != 0)
+        if (number % 2 != 0)
         {
-            randomNumber += 1;
+            number += 1;
         }
 
-        gateText.text = randomNumber.ToString();
+        gateText.text = number.ToString();
     }
 
 }

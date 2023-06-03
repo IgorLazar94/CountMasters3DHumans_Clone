@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public Transform player;
     private bool isAttacking;
     private float distanceToAttack;
+    [SerializeField] private int numberOfEnemies;
     private void Start()
     {
         distanceToAttack = GameSettings.Instance.GetDistanceToAttack();
@@ -25,7 +26,7 @@ public class EnemyController : MonoBehaviour
 
     private void CreateEnemies()
     {
-        for (int i = 0; i < Random.Range(20, 120); i++)
+        for (int i = 0; i < numberOfEnemies; i++)
         {
             var enemy = Instantiate(stickMan, transform.position, new Quaternion(0f, 180f, 0f, 1f), transform);
             enemy.gameObject.tag = TagList.StickmanEnemy;

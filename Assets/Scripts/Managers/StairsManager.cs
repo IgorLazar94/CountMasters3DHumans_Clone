@@ -7,7 +7,6 @@ public class StairsManager : MonoBehaviour
 {
     [SerializeField] private CoinManager coinManager;
     [SerializeField] private UIManager uiManager;
-    //private Dictionary<string, Transform > stairsDictionary = new Dictionary<string, Transform >(); 
     private int resultCoins;
 
     private void Start()
