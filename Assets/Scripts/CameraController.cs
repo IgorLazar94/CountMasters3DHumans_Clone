@@ -51,5 +51,10 @@ public class CameraController : MonoBehaviour
 
     }
 
+    public bool IsMoveSecondCamera()
+    {
+        return moveTheCamera;
+    }
+
    
 }

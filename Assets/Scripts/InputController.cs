@@ -10,6 +10,7 @@ public class InputController : MonoBehaviour
     [SerializeField] private bool gameState;
     [SerializeField] private float playerSpeed;
     [SerializeField] private float roadSpeed;
+    [SerializeField] private CameraController cameraController;
 
     private PlayerBehaviour playerBehaviour;
     private Vector3 mouseStartPos, playerStartPos;
@@ -24,11 +25,9 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (!playerBehaviour.GetIsAttackPlayer())
+        if (!playerBehaviour.GetIsAttackPlayer() && !cameraController.IsMoveSecondCamera())
         {
             PlayerMove();
-
-            
         }
 
 
@@ -55,11 +54,6 @@ public class InputController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMoving = false;
-        }
-
         if (isMoving)
         {
             var plane = new Plane(Vector3.up, 0f);
@@ -71,13 +65,14 @@ public class InputController : MonoBehaviour
                 var mousePos = ray.GetPoint(distance + 1f);
                 var move = mousePos - mouseStartPos;
                 Vector3 offset = playerStartPos + move;
-
                 CheckBorders(offset);
-
-                transform.position = new Vector3(Mathf.Lerp(transform.position.x, offset.x, Time.deltaTime * playerSpeed),
-                                                            transform.position.y,
-                                                            transform.position.z);
+                
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMoving = false;
         }
     }
 
@@ -91,6 +86,14 @@ public class InputController : MonoBehaviour
         {
             _offset.x = Mathf.Clamp(_offset.x, -4f, 4f);
         }
+        UpdatePosition(_offset);
+    }
+
+    private void UpdatePosition(Vector3 playerOffset)
+    {
+        transform.position = new Vector3(Mathf.Lerp(transform.position.x, playerOffset.x, Time.deltaTime * playerSpeed),
+                                            transform.position.y,
+                                            transform.position.z);
     }
 
     private void EnableAnimation()
