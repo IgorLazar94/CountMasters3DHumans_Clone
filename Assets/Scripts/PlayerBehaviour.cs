@@ -16,7 +16,6 @@ public class PlayerBehaviour : MonoBehaviour
     private int playerStickmansCount;
     private int enemyStickmansCount;
     private InputController inputController;
-    // ====================================
 
     [Range(0f, 1f)] [SerializeField] float distanceBetween;
     [Range(0f, 1f)] [SerializeField] float radius;
@@ -57,44 +56,57 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (isAttack)
         {
-            var enemyDirection = new Vector3(enemy.position.x, enemy.position.y, enemy.position.z) - transform.position;
-
-            for (int i = 1; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, 
-                                                                  Quaternion.LookRotation(enemyDirection, Vector3.up), 
-                                                                  Time.deltaTime * 3f);
-            }
-
-            if (enemyControllerObject.childCount > 1)
-            {
-                for (int i = 0; i < transform.childCount; i++)
-                {
-                    var distance = enemyControllerObject.GetChild(0).position - transform.GetChild(i).position;
-
-                    if (distance.magnitude < distanceToAttack)
-                    {
-                        transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, 
-                                                                new Vector3(enemyControllerObject.GetChild(0).position.x,
-                                                                            transform.GetChild(i).position.y, 
-                                                                            enemyControllerObject.GetChild(0).position.z), Time.deltaTime * 1f);
-
-                    }
-                }
-            }
-            else
-            {
-                DisableAttack();
-                enemy.gameObject.SetActive(false);
-            }
+            PlayerAttack();
 
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
             {
                 enemyControllerObject.gameObject.GetComponent<EnemyController>().StopAttacking();
                 gameObject.SetActive(false);
             } 
+        }
+    }
 
+    private void RotateOnEnemy()
+    {
+        var enemyDirection = new Vector3(enemy.position.x, enemy.position.y, enemy.position.z) - transform.position;
 
+        for (int i = 1; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation,
+                                                              Quaternion.LookRotation(enemyDirection, Vector3.up),
+                                                              Time.deltaTime * 3f);
+        }
+    }
+
+    private void PlayerAttack()
+    {
+        RotateOnEnemy();
+
+        if (enemyControllerObject.childCount > 1)
+        {
+            CheckDistance();
+        }
+        else
+        {
+            DisableAttack();
+            enemy.gameObject.SetActive(false);
+        }
+    }
+
+    private void CheckDistance()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            var distance = enemyControllerObject.GetChild(0).position - transform.GetChild(i).position;
+
+            if (distance.magnitude < distanceToAttack)
+            {
+                transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position,
+                                                        new Vector3(enemyControllerObject.GetChild(0).position.x,
+                                                                    transform.GetChild(i).position.y,
+                                                                    enemyControllerObject.GetChild(0).position.z), Time.deltaTime * 1f);
+
+            }
         }
     }
 
@@ -183,8 +195,13 @@ public class PlayerBehaviour : MonoBehaviour
             cameraController.ActivateSecondCamera();
             //FinishLine = true;
             TowerFormation.Instance.CreateTower(transform.childCount - 1);
-            transform.GetChild(0).gameObject.SetActive(false);  // Diactivate label of Counter
+            DiactivateLabel();
         }
+    }
+
+    private void DiactivateLabel()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);  // Diactivate label of Counter
     }
 
     private IEnumerator UpdateEnemyPlayerStickmans ()

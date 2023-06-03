@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     private CinemachineTransposer cinemachineTransposer;
     private CinemachineComposer cinemachineComposer;
     private bool moveTheCamera = false;
+    private float secondCameraOffset = 6f;
 
 
 
@@ -18,28 +19,27 @@ public class CameraController : MonoBehaviour
     {
         if (moveTheCamera && playerBehaviour.childCount > 1)
         {
-            SecondCameraActivated();
+            SecondCameraMove();
         }
     }
 
 
-    private void SecondCameraActivated()
+    private void SecondCameraMove()
     {
 
 
-        cinemachineTransposer.m_FollowOffset = new Vector3(4.5f,
+        cinemachineTransposer.m_FollowOffset = new Vector3(secondCameraOffset,
                                                            Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y,
-                                                                      playerBehaviour.GetChild(1).position.y + 2f,
+                                                                      playerBehaviour.GetChild(1).position.y + secondCameraOffset,
                                                                       Time.deltaTime * 1f),
-        -5f);
+                                                           -secondCameraOffset);
 
         cinemachineComposer.m_TrackedObjectOffset = new Vector3(0f,
                                                                 Mathf.Lerp(cinemachineComposer.m_TrackedObjectOffset.y,
-                                                                          4f,
+                                                                          secondCameraOffset,
                                                                           Time.deltaTime * 1f),
                                                                0f);
     }
-
     public void ActivateSecondCamera()
     {
         secondCamera.gameObject.SetActive(true);
@@ -51,7 +51,7 @@ public class CameraController : MonoBehaviour
 
     }
 
-    public bool IsMoveSecondCamera()
+    public bool GetIsMoveSecondCamera()
     {
         return moveTheCamera;
     }

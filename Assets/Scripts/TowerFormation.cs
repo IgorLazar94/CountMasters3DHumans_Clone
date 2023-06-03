@@ -31,6 +31,12 @@ public class TowerFormation : MonoBehaviour
 
     private void FillTowerList()
     {
+        CreateUpperTowerList();
+        CreateLowerTowerList();
+    }
+
+    private void CreateUpperTowerList()
+    {
         for (int i = 1; i < maxPlayerPerRow; i++)
         {
             if (playerAmount < i)
@@ -40,7 +46,10 @@ public class TowerFormation : MonoBehaviour
             playerAmount -= i;
             towerCountList.Add(i);
         }
+    }
 
+    private void CreateLowerTowerList()
+    {
         for (int i = maxPlayerPerRow; i > 0; i--)
         {
             if (playerAmount >= i)

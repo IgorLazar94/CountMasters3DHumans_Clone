@@ -47,7 +47,9 @@ public class StickmanBehaviour : MonoBehaviour
 
             if (PlayerBehaviour.Instance.player.transform.childCount == 2)
             {
-                other.GetComponent<Renderer>().material.DOColor(new Color(0.4f, 0.98f, 0.65f), 0.5f).SetLoops(1000, LoopType.Yoyo).SetEase(Ease.Linear);
+                //other.GetComponent<Renderer>().material.DOColor(new Color(0.4f, 0.98f, 0.65f), 0.5f).SetLoops(1000, LoopType.Yoyo).SetEase(Ease.Linear);
+
+                Debug.LogError("Finish");
             }
 
         }

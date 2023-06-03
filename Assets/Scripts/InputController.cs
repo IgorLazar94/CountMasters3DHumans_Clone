@@ -26,7 +26,7 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (!playerBehaviour.GetIsAttackPlayer() && !cameraController.IsMoveSecondCamera())
+        if (!playerBehaviour.GetIsAttackPlayer() && !cameraController.GetIsMoveSecondCamera())
         {
             PlayerMove();
         }
