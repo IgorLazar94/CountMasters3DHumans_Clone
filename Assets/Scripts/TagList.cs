@@ -15,4 +15,8 @@ public class TagList
     public static string StickmanEnemy = "StickmanEnemy";
     [ReadOnly]
     public static string Ramp = "Ramp";
+    [ReadOnly]
+    public static string Finish = "Finish";
+    [ReadOnly]
+    public static string Stair = "Stair";
 }

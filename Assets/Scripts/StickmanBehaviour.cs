@@ -8,6 +8,14 @@ public class StickmanBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem fxBlue;
     [SerializeField] private ParticleSystem fxRed;
 
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        animator.SetBool("isRunning", true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TagList.StickmanEnemy) && other.transform.parent.childCount > 0)
@@ -20,8 +28,30 @@ public class StickmanBehaviour : MonoBehaviour
             transform.DOJump(transform.position, 1f, 1, 1f).SetEase(Ease.Flash).OnComplete(PlayerBehaviour.Instance.StickmanFormation);
         }
 
+        if (other.CompareTag(TagList.Stair)) // allow to detect the collored stairs
+        {
+            transform.parent.parent = null; // for instance Tower_0
+            transform.parent = null;    // stickman
+            GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<Collider>().isTrigger = false;
+            animator.SetBool("isRunning", false);
+
+            if (!PlayerBehaviour.Instance.GetMoveTheCamera())
+            {
+                PlayerBehaviour.Instance.SetMoveTheCamera(true);
+            }
+
+            if (PlayerBehaviour.Instance.player.transform.childCount == 2)
+            {
+                other.GetComponent<Renderer>().material.DOColor(new Color(0.4f, 0.98f, 0.65f), 0.5f).SetLoops(1000, LoopType.Yoyo).SetEase(Ease.Linear);
+            }
+
+        }
+
 
     }
+
+   
 
     private void PlayRandomFX()
     {

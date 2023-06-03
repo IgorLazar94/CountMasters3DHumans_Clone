@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using Cinemachine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
     public static PlayerBehaviour Instance;
 
 
-    private TextMeshPro counterLabelText;
     [SerializeField] private GameObject stickMan;
+    [SerializeField] private CinemachineVirtualCamera secondCamera;
+    private TextMeshPro counterLabelText;
     public Transform player;
     private int playerStickmansCount;
     private int enemyStickmansCount;
@@ -22,11 +24,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private Transform enemy;
     private bool isAttack;
+    private bool moveTheCamera = false;
 
     private void Start()
     {
         inputController = gameObject.GetComponent<InputController>();
         player = transform;
+        player.GetChild(1).GetComponent<Animator>().SetBool("isRunning", true);
         counterLabelText = GetComponentInChildren<TextMeshPro>();
         playerStickmansCount = transform.childCount - 1;
 
@@ -42,6 +46,29 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (moveTheCamera && transform.childCount > 1)
+        {
+            var cinemachineTransposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
+            var cinemachineComposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineComposer>();
+
+            //cinemachineTransposer.m_FollowOffset = new Vector3(4.5f,
+            //                                                   Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y,
+            //                                                              transform.GetChild(1).position.y + 2f,
+            //                                                              Time.deltaTime * 1f),
+            //                                                   -5f);
+
+            //cinemachineComposer.m_TrackedObjectOffset = new Vector3(0f, 
+            //                                                       Mathf.Lerp(cinemachineComposer.m_TrackedObjectOffset.y, 
+            //                                                                  4f,
+            //                                                                  Time.deltaTime * 1f), 
+            //                                                       0f);    
+
+
+
+        }
+
+
+
         if (isAttack)
         {
             var enemyDirection = new Vector3(enemy.position.x, enemy.position.y, enemy.position.z) - transform.position;
@@ -116,8 +143,7 @@ public class PlayerBehaviour : MonoBehaviour
             var z = distanceBetween * Mathf.Sqrt(i) * Mathf.Sin(i * radius);
 
             Vector3 newPos = new Vector3(x, -1f, z);
-
-            player.transform.GetChild(i).DOLocalMove(newPos, 0.5f).SetEase(Ease.OutBack);
+            player.transform.GetChild(i).DOLocalMove(newPos, 0.5f).SetEase(Ease.OutBack); // Сократить кол-во вызовов!
         }
     }
 
@@ -168,6 +194,14 @@ public class PlayerBehaviour : MonoBehaviour
 
             StartCoroutine(UpdateEnemyPlayerStickmans());
         }
+
+        if (other.CompareTag(TagList.Finish))
+        {
+            secondCamera.gameObject.SetActive(true);
+            //FinishLine = true;
+            TowerFormation.Instance.CreateTower(transform.childCount - 1);
+            transform.GetChild(0).gameObject.SetActive(false);  // Diactivate label of Counter
+        }
     }
 
     private IEnumerator UpdateEnemyPlayerStickmans ()
@@ -211,6 +245,16 @@ public class PlayerBehaviour : MonoBehaviour
     public bool GetIsAttackPlayer()
     {
         return isAttack;
+    }
+
+    public void SetMoveTheCamera(bool value)
+    {
+        moveTheCamera = value;
+    }
+
+    public bool GetMoveTheCamera()
+    {
+        return moveTheCamera;
     }
 
 

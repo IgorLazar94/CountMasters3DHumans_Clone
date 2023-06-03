@@ -19,6 +19,7 @@ public class InputController : MonoBehaviour
     {
         playerBehaviour = gameObject.GetComponent<PlayerBehaviour>();
         mainCamera = Camera.main;
+        gameState = true;
     }
 
     private void Update()
@@ -34,7 +35,7 @@ public class InputController : MonoBehaviour
         if (gameState)
         {
             MoveRoad();
-            EnableAnimation();
+            //EnableAnimation();
         }
     }
 

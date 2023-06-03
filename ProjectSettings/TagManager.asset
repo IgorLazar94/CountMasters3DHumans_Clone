@@ -9,6 +9,8 @@ TagManager:
   - StickmanEnemy
   - StickmanPlayer
   - Ramp
+  - FxTemporaire
+  - Stair
   layers:
   - Default
   - TransparentFX
