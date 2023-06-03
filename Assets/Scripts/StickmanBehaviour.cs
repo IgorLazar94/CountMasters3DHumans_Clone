@@ -36,10 +36,10 @@ public class StickmanBehaviour : MonoBehaviour
             GetComponent<Collider>().isTrigger = false;
             animator.SetBool("isRunning", false);
 
-            if (!PlayerBehaviour.Instance.GetMoveTheCamera())
-            {
-                PlayerBehaviour.Instance.SetMoveTheCamera(true);
-            }
+            //if (!PlayerBehaviour.Instance.GetMoveTheCamera())
+            //{
+            //    PlayerBehaviour.Instance.SetMoveTheCamera(true);
+            //}
 
             if (PlayerBehaviour.Instance.player.transform.childCount == 2)
             {

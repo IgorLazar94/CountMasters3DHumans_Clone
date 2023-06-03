@@ -9,9 +9,8 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public static PlayerBehaviour Instance;
 
-
+    [SerializeField] private CameraController cameraController;
     [SerializeField] private GameObject stickMan;
-    [SerializeField] private CinemachineVirtualCamera secondCamera;
     private TextMeshPro counterLabelText;
     [HideInInspector] public Transform player;
     private int playerStickmansCount;
@@ -23,13 +22,10 @@ public class PlayerBehaviour : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] float radius;
 
     private bool isAttack;
-    private bool moveTheCamera = false;
     private float distanceToAttack;
     private Transform enemy;
     private Transform enemyControllerObject;
 
-    private CinemachineTransposer cinemachineTransposer;
-    private CinemachineComposer cinemachineComposer;
 
     private void Start()
     {
@@ -54,13 +50,7 @@ public class PlayerBehaviour : MonoBehaviour
         counterLabelText.text = playerStickmansCount.ToString();
     }
 
-    private void LateUpdate()
-    {
-        if (moveTheCamera && transform.childCount > 1)
-        {
-            SecondCameraActivated();
-        }
-    }
+   
 
     private void Update()
     {
@@ -108,22 +98,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void SecondCameraActivated()
-    {
-
-
-        cinemachineTransposer.m_FollowOffset = new Vector3(4.5f,
-                                                           Mathf.Lerp(cinemachineTransposer.m_FollowOffset.y,
-                                                                      transform.GetChild(1).position.y + 2f,
-                                                                      Time.deltaTime * 1f),
-                                                           -5f);
-
-        cinemachineComposer.m_TrackedObjectOffset = new Vector3(0f,
-                                                               Mathf.Lerp(cinemachineComposer.m_TrackedObjectOffset.y,
-                                                                          4f,
-                                                                          Time.deltaTime * 1f),
-                                                               0f);
-    }
+   
 
     private void DisableAttack()
     {
@@ -205,7 +180,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (other.CompareTag(TagList.Finish))
         {
-            secondCamera.gameObject.SetActive(true);
+            cameraController.ActivateSecondCamera();
             //FinishLine = true;
             TowerFormation.Instance.CreateTower(transform.childCount - 1);
             transform.GetChild(0).gameObject.SetActive(false);  // Diactivate label of Counter
@@ -231,7 +206,6 @@ public class PlayerBehaviour : MonoBehaviour
         if (enemyStickmansCount == 0)
         {
             RotateForwardStickmans();
-            //isAttack = false; // Call Disable Attack () ?!!
         }
     }
 
@@ -251,20 +225,15 @@ public class PlayerBehaviour : MonoBehaviour
         return isAttack;
     }
 
-    public void SetMoveTheCamera(bool value)
-    {
-        moveTheCamera = value;
-        if (value)
-        {
-            cinemachineTransposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTransposer>();
-            cinemachineComposer = secondCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineComposer>();
-        }
-    }
+    //public void SetMoveTheCamera(bool value)
+    //{
+    //    cameraController.ActivateSecondCamera();
+    //}
 
-    public bool GetMoveTheCamera()
-    {
-        return moveTheCamera;
-    }
+    //public bool GetMoveTheCamera()
+    //{
+    //    return moveTheCamera;
+    //}
 
 
 }
