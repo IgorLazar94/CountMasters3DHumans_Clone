@@ -10,9 +10,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject losePanel;
     [SerializeField] GameObject winPanel;
     [SerializeField] GameObject playModePanel;
-
+    [SerializeField] GameObject magazinePanel;
+ 
     [SerializeField] TextMeshProUGUI coinsText;
     [SerializeField] TextMeshProUGUI coinsResult;
+
+    [SerializeField] PlayerBehaviour playerBehaviour;
     private RectTransform cointTransform;
 
     private void Start()
@@ -57,5 +60,18 @@ public class UIManager : MonoBehaviour
     public void CalculateResultScores(int scores)
     {
         coinsResult.text = "Your scores: " + scores.ToString();
+    }
+
+    public void EnterMagazine()
+    {
+        startPanel.SetActive(false);
+        magazinePanel.SetActive(true);
+    }
+
+    public void ExitMagazine()
+    {
+        magazinePanel.SetActive(false);
+        startPanel.SetActive(true);
+        playerBehaviour.ChooseColor();
     }
 }

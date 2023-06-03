@@ -11,8 +11,10 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private UIManager uiManager;
-    [SerializeField] private GameObject stickMan;
+    [SerializeField] private GameObject stickMen;
     [SerializeField] private CoinManager coinManager;
+    [SerializeField] private MaterialCollection materialCollection;
+    [SerializeField] private SkinnedMeshRenderer stickmenMesh;
     private TextMeshPro counterLabelText;
     [HideInInspector] public Transform player;
     private int playerStickmansCount;
@@ -39,6 +41,13 @@ public class PlayerBehaviour : MonoBehaviour
         playerStickmansCount = transform.childCount - 1;
         EnableAnimation();
         UpdateCounterText();
+    }
+
+    public void ChooseColor ()
+    {
+        var newMaterial = materialCollection.SetSelectableMaterial();
+        stickmenMesh.material = newMaterial;
+        stickMen.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material = newMaterial;
     }
 
     private void EnableAnimation()
@@ -148,7 +157,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         for (int i = playerStickmansCount; i < number; i++)
         {
-            var stickman = Instantiate(stickMan, new Vector3(transform.position.x, 
+            var stickman = Instantiate(stickMen, new Vector3(transform.position.x, 
                                                              transform.position.y - 1, 
                                                              transform.position.z), Quaternion.identity, transform);
             stickman.GetComponent<StickmanBehaviour>().SetPlayerBehaviour(this);

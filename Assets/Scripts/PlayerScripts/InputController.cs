@@ -44,7 +44,7 @@ public class InputController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameState)
         {
             isMoving = true;
-            uiManager.HideStartPanel();
+            //uiManager.HideStartPanel();
             var plane = new Plane(Vector3.up, 0f);
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
