@@ -26,8 +26,6 @@ public class Stair : MonoBehaviour
 
     private void UpdateBonusText(float _value)
     {
-        Debug.Log(bonusText + "bonusTExt");
-        Debug.Log(_value + "value");
         bonusText.text = "x" + _value.ToString();
     }
 }
