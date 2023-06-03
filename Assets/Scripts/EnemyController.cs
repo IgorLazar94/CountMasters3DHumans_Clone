@@ -11,8 +11,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject stickMan;
     [SerializeField] private TextMeshPro counterText;
     [SerializeField] private InputController inputController;
-
-    public Transform enemy;
+    [HideInInspector] public Transform player;
     private bool isAttacking;
     private float distanceToAttack;
     private void Start()
@@ -55,36 +54,39 @@ public class EnemyController : MonoBehaviour
     {
         if (isAttacking && transform.childCount > 1)
         {
-            var enemyPos = new Vector3(enemy.position.x, transform.position.y, enemy.position.z);
-            var enemyDirection = /*enemyPos*/enemy.position - transform.position;
+            //var enemyPos = new Vector3(enemy.position.x, transform.position.y, enemy.position.z);
+            var enemyDirection = player.position - transform.position;
 
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = 1; i < transform.childCount; i++)
             {
+                Debug.Log(enemyDirection + "enemyDirection");
                 transform.GetChild(i).rotation = Quaternion.Slerp(transform.GetChild(i).rotation, Quaternion.LookRotation(enemyDirection, Vector3.up),
                     Time.deltaTime * 3f);
 
-                if (enemy.childCount > 1)
+                if (player.childCount > 1)
                 {
-                    var distance = enemy.GetChild(1).position - transform.GetChild(i).position;
-
-                    if (distance.magnitude < distanceToAttack)
-                    {
-                        transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, enemy.GetChild(i).position, Time.deltaTime * 2f);
-                    }
+                    CalculateDistance(i);
                 }
             }
         }
     }
 
-    public void EnemyAttack(Transform enemyForce)
+    private void CalculateDistance(int childEnemy)
     {
-        enemy = enemyForce;
+        var distance = player.GetChild(1).position - transform.GetChild(childEnemy).position;
+
+        if (distance.magnitude < distanceToAttack)
+        {
+            transform.GetChild(childEnemy).position = Vector3.Lerp(transform.GetChild(childEnemy).position, player.GetChild(childEnemy).position, Time.deltaTime * 2f);
+        }
+    }
+
+    public void EnemyAttack(Transform playerPos)
+    {
+        player = playerPos;
         isAttacking = true;
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", true);
-        }
+        SwitchAnimator(true);
     }
 
     public void StopAttacking()
@@ -92,9 +94,14 @@ public class EnemyController : MonoBehaviour
         inputController.SetGameState(false);
         isAttacking = false;
 
+        SwitchAnimator(false);
+    }
+
+    private void SwitchAnimator(bool value)
+    {
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", false);
+            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", value);
         }
     }
 }

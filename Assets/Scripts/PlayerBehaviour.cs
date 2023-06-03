@@ -22,10 +22,11 @@ public class PlayerBehaviour : MonoBehaviour
     [Range(0f, 1f)] [SerializeField] float distanceBetween;
     [Range(0f, 1f)] [SerializeField] float radius;
 
-    private Transform enemy;
     private bool isAttack;
     private bool moveTheCamera = false;
     private float distanceToAttack;
+    private Transform enemy;
+    private Transform enemyControllerObject;
 
     private void Start()
     {
@@ -83,18 +84,18 @@ public class PlayerBehaviour : MonoBehaviour
                                                                   Time.deltaTime * 3f);
             }
 
-            if (enemy.GetChild(1).childCount > 1)
+            if (enemyControllerObject.childCount > 1)
             {
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    var distance = enemy.GetChild(1).GetChild(0).position - transform.GetChild(i).position;
+                    var distance = enemyControllerObject.GetChild(0).position - transform.GetChild(i).position;
 
                     if (distance.magnitude < distanceToAttack)
                     {
                         transform.GetChild(i).position = Vector3.Lerp(transform.GetChild(i).position, 
-                                                                new Vector3(enemy.GetChild(1).GetChild(0).position.x,
+                                                                new Vector3(enemyControllerObject.GetChild(0).position.x,
                                                                             transform.GetChild(i).position.y, 
-                                                                            enemy.GetChild(1).GetChild(0).position.z), Time.deltaTime * 1f);
+                                                                            enemyControllerObject.GetChild(0).position.z), Time.deltaTime * 1f);
 
                     }
                 }
@@ -107,7 +108,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
             {
-                enemy.transform.GetChild(1).GetComponent<EnemyController>().StopAttacking();
+                enemyControllerObject.gameObject.GetComponent<EnemyController>().StopAttacking();
                 gameObject.SetActive(false);
             } 
 
@@ -182,6 +183,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.CompareTag(TagList.Enemy))
         {
             enemy = other.transform;
+            enemyControllerObject = enemy.transform.GetChild(1).gameObject.transform;
             isAttack = true;
 
             float _roadSpeed = inputController.GetRoadSpeed();
@@ -203,7 +205,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private IEnumerator UpdateEnemyPlayerStickmans ()
     {
-        enemyStickmansCount = enemy.transform.GetChild(1).childCount - 1;
+        enemyStickmansCount = enemyControllerObject.childCount - 1;
         playerStickmansCount = transform.childCount - 1;
 
         while (enemyStickmansCount > 0 && playerStickmansCount > 0)
@@ -211,7 +213,7 @@ public class PlayerBehaviour : MonoBehaviour
             enemyStickmansCount--;
             playerStickmansCount--;
 
-            enemy.transform.GetChild(1).GetComponent<EnemyController>().UpdateLabelText();
+            enemyControllerObject.gameObject.GetComponent<EnemyController>().UpdateLabelText();
             UpdateCounterText();
 
             yield return null;
