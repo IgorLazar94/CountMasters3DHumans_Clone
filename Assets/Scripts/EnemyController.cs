@@ -50,7 +50,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isAttacking && transform.childCount > 1)
         {
@@ -76,7 +76,7 @@ public class EnemyController : MonoBehaviour
 
         if (distance.magnitude < distanceToAttack)
         {
-            transform.GetChild(childEnemy).position = Vector3.Lerp(transform.GetChild(childEnemy).position, player.GetChild(childEnemy).position, Time.deltaTime * 2f);
+            transform.GetChild(childEnemy).position = Vector3.Lerp(transform.GetChild(childEnemy).position, player.GetChild(1/*childEnemy*/).position, Time.deltaTime * 2f);
         }
     }
 

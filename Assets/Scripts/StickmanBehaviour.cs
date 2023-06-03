@@ -10,6 +10,7 @@ public class StickmanBehaviour : MonoBehaviour
     private float jumpDuration;
     private float jumpForce;
     private Animator animator;
+    private PlayerBehaviour playerBehaviour;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class StickmanBehaviour : MonoBehaviour
         if (other.CompareTag(TagList.Ramp))
         {
             transform.DOJump(transform.position, jumpForce, 1, jumpDuration).SetEase(Ease.Flash).OnComplete(PlayerBehaviour.Instance.StickmanFormation);
+            playerBehaviour.HandOverAddCoin();
         }
 
         if (other.CompareTag(TagList.Stair)) // allow to detect the collored stairs
@@ -48,13 +50,16 @@ public class StickmanBehaviour : MonoBehaviour
             if (PlayerBehaviour.Instance.player.transform.childCount == 2)
             {
                 //other.GetComponent<Renderer>().material.DOColor(new Color(0.4f, 0.98f, 0.65f), 0.5f).SetLoops(1000, LoopType.Yoyo).SetEase(Ease.Linear);
-
-                Debug.LogError("Finish");
+                //playerBehaviour.
+                other.gameObject.transform.parent.GetComponent<StairsManager>().MultiplyCoinsByFactor(other.transform);
+                
             }
-
         }
+    }
 
-
+    public void SetPlayerBehaviour(PlayerBehaviour _playerBehaviour)
+    {
+        playerBehaviour = _playerBehaviour;
     }
 
    

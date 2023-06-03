@@ -11,6 +11,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private CameraController cameraController;
     [SerializeField] private GameObject stickMan;
+    [SerializeField] private CoinManager coinManager;
     private TextMeshPro counterLabelText;
     [HideInInspector] public Transform player;
     private int playerStickmansCount;
@@ -48,12 +49,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         counterLabelText.text = playerStickmansCount.ToString();
     }
-
    
-
-    private void Update()
+    private void FixedUpdate()
     {
-
         if (isAttack)
         {
             PlayerAttack();
@@ -148,7 +146,10 @@ public class PlayerBehaviour : MonoBehaviour
     {
         for (int i = playerStickmansCount; i < number; i++)
         {
-            Instantiate(stickMan, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity, transform);
+            var stickman = Instantiate(stickMan, new Vector3(transform.position.x, 
+                                                             transform.position.y - 1, 
+                                                             transform.position.z), Quaternion.identity, transform);
+            stickman.GetComponent<StickmanBehaviour>().SetPlayerBehaviour(this);
         }
 
         playerStickmansCount = transform.childCount - 1;
@@ -201,7 +202,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DiactivateLabel()
     {
-        transform.GetChild(0).gameObject.SetActive(false);  // Diactivate label of Counter
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private IEnumerator UpdateEnemyPlayerStickmans ()
@@ -213,7 +214,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             enemyStickmansCount--;
             playerStickmansCount--;
-
+            HandOverAddCoin();
             enemyControllerObject.gameObject.GetComponent<EnemyController>().UpdateLabelText();
             UpdateCounterText();
 
@@ -224,6 +225,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             RotateForwardStickmans();
         }
+    }
+
+    public void HandOverAddCoin()
+    {
+        coinManager.AddPlayerCoin();
+    }
+
+    public int HandOverGetCoin()
+    {
+        return coinManager.GetPlayerCoin();
     }
 
 
