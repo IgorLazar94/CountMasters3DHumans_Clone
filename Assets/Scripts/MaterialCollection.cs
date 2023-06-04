@@ -6,6 +6,7 @@ public class MaterialCollection : MonoBehaviour
 {
     public static MaterialCollection Instance;
     private Material selectableMaterial;
+    [SerializeField] UIManager uiManager;
 
     [field: SerializeField] public Material Blue { get; private set; }
     [field: SerializeField] public Material Green { get; private set; }
@@ -18,38 +19,54 @@ public class MaterialCollection : MonoBehaviour
 
     public void SelectBlueColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Blue;
+        uiManager.ExitMagazine();
     }
     public void SelectGreenColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Green;
+        uiManager.ExitMagazine();
     }
     public void SelectOrangeColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Orange;
+        uiManager.ExitMagazine();
     }
     public void SelectRedColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Red;
+        uiManager.ExitMagazine();
     }
     public void SelectVioletColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Violet;
+        uiManager.ExitMagazine();
     }
     public void SelectWaterColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Water;
+        uiManager.ExitMagazine();
     }
     public void SelectWhiteColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = White;
+        uiManager.ExitMagazine();
     }
     public void SelectYellowColor()
     {
+        uiManager.BuySkin();
         selectableMaterial = Yellow;
+        uiManager.ExitMagazine();
     }
 
-    public Material SetSelectableMaterial ()
+    public Material SetSelectableMaterial()
     {
         if (selectableMaterial == null)
         {
