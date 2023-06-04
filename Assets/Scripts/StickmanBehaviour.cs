@@ -25,7 +25,7 @@ public class StickmanBehaviour : MonoBehaviour
     {
         if (other.CompareTag(TagList.StickmanEnemy) && other.transform.parent.childCount > 0)
         {
-            DestroyStickmans(other);
+            DestroyStickmansFromEnemies(other);
         }
 
         if (other.CompareTag(TagList.Ramp))
@@ -55,6 +55,19 @@ public class StickmanBehaviour : MonoBehaviour
                 
             }
         }
+
+        if (other.CompareTag(TagList.Obstacle))
+        {
+            DestroyStickmansFromObstacles();
+            playerBehaviour.RemovePlayerStickman();
+            //StartCoroutine(ReformationStickman());
+        }
+    }
+
+    private IEnumerator ReformationStickman()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        playerBehaviour.StickmanFormation();
     }
 
     public void SetPlayerBehaviour(PlayerBehaviour _playerBehaviour)
@@ -78,10 +91,21 @@ public class StickmanBehaviour : MonoBehaviour
 
     }
 
-    private void DestroyStickmans(Collider enemyStickman)
+    private void DestroyStickmansFromEnemies(Collider enemyStickman)
     {
         PlayRandomFX();
         Destroy(enemyStickman.gameObject);
         Destroy(gameObject);
+    }
+
+    private void DestroyStickmansFromObstacles()
+    {
+        PlayBlueFX();
+        Destroy(gameObject);
+    }
+
+    private void PlayBlueFX()
+    {
+        Instantiate(fxBlue, transform.position, Quaternion.identity);
     }
 }

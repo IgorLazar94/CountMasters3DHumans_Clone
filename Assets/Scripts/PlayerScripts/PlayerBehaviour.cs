@@ -69,8 +69,7 @@ public class PlayerBehaviour : MonoBehaviour
             if (transform.childCount == 1) // if blue == 0 () => StopAttack
             {
                 enemyControllerObject.gameObject.GetComponent<EnemyController>().StopAttacking();
-                uiManager.ShowLosePanel();
-                gameObject.SetActive(false);
+                GameOver();
             } 
         }
     }
@@ -199,7 +198,7 @@ public class PlayerBehaviour : MonoBehaviour
 
             other.transform.GetChild(1).GetComponent<EnemyController>().EnemyAttack(transform);
 
-            StartCoroutine(UpdateEnemyPlayerStickmans());
+            StartCoroutine(RemoveEnemyPlayerStickmans());
         }
 
         if (other.CompareTag(TagList.Finish))
@@ -216,7 +215,7 @@ public class PlayerBehaviour : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    private IEnumerator UpdateEnemyPlayerStickmans ()
+    private IEnumerator RemoveEnemyPlayerStickmans ()
     {
         enemyStickmansCount = enemyControllerObject.childCount - 1;
         playerStickmansCount = transform.childCount - 1;
@@ -236,6 +235,25 @@ public class PlayerBehaviour : MonoBehaviour
         {
             RotateForwardStickmans();
         }
+    }
+
+    public void RemovePlayerStickman()
+    {
+        playerStickmansCount = transform.childCount - 1;
+        playerStickmansCount--;
+        UpdateCounterText();
+        Debug.Log(transform.childCount + " child Count");
+        if (transform.childCount < 5) // bug fix
+        {
+            GameOver();
+        }
+
+    }
+
+    private void GameOver()
+    {
+        uiManager.ShowLosePanel();
+        gameObject.SetActive(false);
     }
 
     public void HandOverAddCoin()

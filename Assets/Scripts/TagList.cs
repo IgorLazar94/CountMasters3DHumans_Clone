@@ -19,4 +19,6 @@ public class TagList
     public static string Finish = "Finish";
     [ReadOnly]
     public static string Stair = "Stair";
+    [ReadOnly]
+    public static string Obstacle = "Obstacle";
 }
