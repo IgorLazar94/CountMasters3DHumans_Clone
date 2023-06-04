@@ -242,7 +242,6 @@ public class PlayerBehaviour : MonoBehaviour
         playerStickmansCount = transform.childCount - 1;
         playerStickmansCount--;
         UpdateCounterText();
-        Debug.Log(transform.childCount + " child Count");
         if (transform.childCount < 5) // bug fix
         {
             GameOver();

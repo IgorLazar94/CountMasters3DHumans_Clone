@@ -19,48 +19,56 @@ public class MaterialCollection : MonoBehaviour
 
     public void SelectBlueColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Blue;
         uiManager.ExitMagazine();
     }
     public void SelectGreenColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Green;
         uiManager.ExitMagazine();
     }
     public void SelectOrangeColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Orange;
         uiManager.ExitMagazine();
     }
     public void SelectRedColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Red;
         uiManager.ExitMagazine();
     }
     public void SelectVioletColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Violet;
         uiManager.ExitMagazine();
     }
     public void SelectWaterColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Water;
         uiManager.ExitMagazine();
     }
     public void SelectWhiteColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = White;
         uiManager.ExitMagazine();
     }
     public void SelectYellowColor()
     {
+        uiManager.CheckPrice();
         uiManager.BuySkin();
         selectableMaterial = Yellow;
         uiManager.ExitMagazine();

@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject winPanel;
     [SerializeField] GameObject playModePanel;
     [SerializeField] GameObject magazinePanel;
- 
+
     [SerializeField] TextMeshProUGUI coinsText;
     [SerializeField] TextMeshProUGUI coinsResult;
 
@@ -43,10 +43,31 @@ public class UIManager : MonoBehaviour
     public void BuySkin()
     {
         int coins = coinManager.GetPlayerCoinFromMagazine();
-        coinManager.RemoveCoins(price);
-        coinManager.SavePlayerCoins(coins - price);
+        if (coins < price)
+        {
+            return;
+        }
+        else
+        {
+            coinManager.RemoveCoins(price);
+            coinManager.SavePlayerCoins(coins - price);
+        }
+        coinsMagazineText.text = coins.ToString();
     }
-    
+
+    public void CheckPrice()
+    {
+        int coins = coinManager.GetPlayerCoinFromMagazine();
+        if (coins < 0)
+        {
+            coins = 0;
+        }
+        if (coins < price)
+        {
+            return;
+        }
+    }
+
 
     public void ShowLosePanel()
     {
