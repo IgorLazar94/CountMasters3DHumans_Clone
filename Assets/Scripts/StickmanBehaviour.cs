@@ -34,23 +34,16 @@ public class StickmanBehaviour : MonoBehaviour
             playerBehaviour.HandOverAddCoin();
         }
 
-        if (other.CompareTag(TagList.Stair)) // allow to detect the collored stairs
+        if (other.CompareTag(TagList.Stair))
         {
-            transform.parent.parent = null; // for instance Tower_0
-            transform.parent = null;    // stickman
+            transform.parent.parent = null;
+            transform.parent = null;
             GetComponent<Rigidbody>().isKinematic = false;
             GetComponent<Collider>().isTrigger = false;
             animator.SetBool("isRunning", false);
 
-            //if (!PlayerBehaviour.Instance.GetMoveTheCamera())
-            //{
-            //    PlayerBehaviour.Instance.SetMoveTheCamera(true);
-            //}
-
             if (PlayerBehaviour.Instance.player.transform.childCount == 2)
             {
-                //other.GetComponent<Renderer>().material.DOColor(new Color(0.4f, 0.98f, 0.65f), 0.5f).SetLoops(1000, LoopType.Yoyo).SetEase(Ease.Linear);
-                //playerBehaviour.
                 other.gameObject.transform.parent.GetComponent<StairsManager>().MultiplyCoinsByFactor(other.transform);
                 
             }
@@ -75,8 +68,6 @@ public class StickmanBehaviour : MonoBehaviour
         playerBehaviour = _playerBehaviour;
     }
 
-   
-
     private void PlayRandomFX()
     {
         int random = Random.Range(0, 2);
@@ -88,7 +79,6 @@ public class StickmanBehaviour : MonoBehaviour
         {
             Instantiate(fxBlue, transform.position, Quaternion.identity);
         }
-
     }
 
     private void DestroyStickmansFromEnemies(Collider enemyStickman)

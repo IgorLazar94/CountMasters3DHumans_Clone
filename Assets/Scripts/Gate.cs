@@ -14,7 +14,6 @@ public class Gate : MonoBehaviour
     private TextMeshPro gateText;
     public int number;
 
-
     private void Start()
     {
         gateText = GetComponentInChildren<TextMeshPro>();

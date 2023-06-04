@@ -55,7 +55,6 @@ public class EnemyController : MonoBehaviour
     {
         if (isAttacking && transform.childCount > 1)
         {
-            //var enemyPos = new Vector3(enemy.position.x, transform.position.y, enemy.position.z);
             var enemyDirection = player.position - transform.position;
 
             for (int i = 1; i < transform.childCount; i++)

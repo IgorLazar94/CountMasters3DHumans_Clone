@@ -43,7 +43,6 @@ public class CoinManager : MonoBehaviour
     public int GetPlayerCoinFromMagazine()
     {
         playerCoins = PlayerPrefs.GetInt("PlayerCoins", playerCoins);
-        Debug.Log(playerCoins + "player Coins GET");
         return playerCoins;
     }
 

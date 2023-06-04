@@ -149,9 +149,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-
-
-
     private void MakeStickman(int number)
     {
         for (int i = playerStickmansCount; i < number; i++)
@@ -204,7 +201,6 @@ public class PlayerBehaviour : MonoBehaviour
         if (other.CompareTag(TagList.Finish))
         {
             cameraController.ActivateSecondCamera();
-            //FinishLine = true;
             TowerFormation.Instance.CreateTower(transform.childCount - 1);
             DiactivateLabel();
         }
@@ -265,12 +261,6 @@ public class PlayerBehaviour : MonoBehaviour
         return coinManager.GetPlayerCoin();
     }
 
-
-
-
-
-
-
     public int GetStickmansCount()
     {
         return playerStickmansCount;
@@ -280,16 +270,5 @@ public class PlayerBehaviour : MonoBehaviour
     {
         return isAttack;
     }
-
-    //public void SetMoveTheCamera(bool value)
-    //{
-    //    cameraController.ActivateSecondCamera();
-    //}
-
-    //public bool GetMoveTheCamera()
-    //{
-    //    return moveTheCamera;
-    //}
-
 
 }

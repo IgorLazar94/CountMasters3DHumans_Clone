@@ -6,10 +6,6 @@ public class GameSettings : MonoBehaviour
 {
     public static GameSettings Instance { get; private set; }
 
-
-
-
-
     public void Awake()
     {
         if (Instance == null)

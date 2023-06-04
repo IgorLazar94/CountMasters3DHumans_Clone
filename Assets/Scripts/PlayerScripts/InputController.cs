@@ -35,7 +35,6 @@ public class InputController : MonoBehaviour
         if (gameState)
         {
             MoveRoad();
-            //EnableAnimation();
         }
     }
 
@@ -44,7 +43,6 @@ public class InputController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && gameState)
         {
             isMoving = true;
-            //uiManager.HideStartPanel();
             var plane = new Plane(Vector3.up, 0f);
             var ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -95,14 +93,6 @@ public class InputController : MonoBehaviour
         transform.position = new Vector3(Mathf.Lerp(transform.position.x, playerOffset.x, Time.deltaTime * playerSpeed),
                                             transform.position.y,
                                             transform.position.z);
-    }
-
-    private void EnableAnimation()
-    {
-        for (int i = 1; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).GetComponent<Animator>().SetBool("isRunning", true);
-        }
     }
 
     private void MoveRoad()
